@@ -1,0 +1,80 @@
+parameters:
+    level: 1
+
+    checkClassCaseSensitivity: true
+    checkPhpDocMissingReturn: true
+    checkImplicitMixed: true
+    checkMissingIterableValueType: false
+    checkUninitializedProperties: true
+    treatPhpDocTypesAsCertain: false
+    
+    paths:
+        - src
+        
+    excludePaths:
+        - src/Command
+        - src/Console
+
+rules:
+    - PHPStan\Rules\Cast\EchoRule
+    - PHPStan\Rules\Cast\InvalidCastRule
+    - PHPStan\Rules\Cast\InvalidPartOfEncapsedStringRule
+    - PHPStan\Rules\Cast\PrintRule
+    - PHPStan\Rules\Classes\AccessPrivateConstantThroughStaticRule
+    - PHPStan\Rules\Comparison\UsageOfVoidMatchExpressionRule
+    - PHPStan\Rules\Functions\IncompatibleDefaultParameterTypeRule
+    - PHPStan\Rules\Generics\ClassAncestorsRule
+    - PHPStan\Rules\Generics\ClassTemplateTypeRule
+    - PHPStan\Rules\Generics\EnumAncestorsRule
+    - PHPStan\Rules\Generics\EnumTemplateTypeRule
+    - PHPStan\Rules\Generics\FunctionTemplateTypeRule
+    - PHPStan\Rules\Generics\FunctionSignatureVarianceRule
+    - PHPStan\Rules\Generics\InterfaceAncestorsRule
+    - PHPStan\Rules\Generics\InterfaceTemplateTypeRule
+    - PHPStan\Rules\Generics\MethodTemplateTypeRule
+    - PHPStan\Rules\Generics\MethodSignatureVarianceRule
+    - PHPStan\Rules\Generics\TraitTemplateTypeRule
+    - PHPStan\Rules\Generics\UsedTraitsRule
+    - PHPStan\Rules\Methods\CallPrivateMethodThroughStaticRule
+    - PHPStan\Rules\Methods\IncompatibleDefaultParameterTypeRule
+    - PHPStan\Rules\Operators\InvalidBinaryOperationRule
+    - PHPStan\Rules\Operators\InvalidUnaryOperationRule
+    - PHPStan\Rules\Operators\InvalidComparisonOperationRule
+
+conditionalTags:
+    PHPStan\Rules\Functions\IncompatibleArrowFunctionDefaultParameterTypeRule:
+        phpstan.rules.rule: %featureToggles.closureDefaultParameterTypeRule%
+    PHPStan\Rules\Functions\IncompatibleClosureDefaultParameterTypeRule:
+        phpstan.rules.rule: %featureToggles.closureDefaultParameterTypeRule%
+    PHPStan\Rules\Methods\IllegalConstructorMethodCallRule:
+        phpstan.rules.rule: %featureToggles.illegalConstructorMethodCall%
+    PHPStan\Rules\Methods\IllegalConstructorStaticCallRule:
+        phpstan.rules.rule: %featureToggles.illegalConstructorMethodCall%
+    PHPStan\Rules\Generics\PropertyVarianceRule:
+        phpstan.rules.rule: %featureToggles.propertyVariance%
+
+services:
+    -
+        class: PHPStan\Rules\Classes\MixinRule
+        arguments:
+            checkClassCaseSensitivity: %checkClassCaseSensitivity%
+        tags:
+            - phpstan.rules.rule
+    -
+        class: PHPStan\Rules\Functions\IncompatibleArrowFunctionDefaultParameterTypeRule
+    -
+        class: PHPStan\Rules\Functions\IncompatibleClosureDefaultParameterTypeRule
+    -
+        class: PHPStan\Rules\Functions\CallCallablesRule
+        arguments:
+            reportMaybes: %reportMaybes%
+        tags:
+            - phpstan.rules.rule
+    -
+        class: PHPStan\Rules\Methods\IllegalConstructorMethodCallRule
+    -
+        class: PHPStan\Rules\Methods\IllegalConstructorStaticCallRule
+    -
+        class: PHPStan\Rules\Generics\PropertyVarianceRule
+        arguments:
+            readOnlyByPhpDoc: %featureToggles.readOnlyByPhpDoc%

@@ -1,0 +1,4 @@
+#0 0 * * 0 curl -i "http://localhost/crons/remove_accounts?token=SIb2F3nH6bWMaVez6bzR1lS029dm2VyIYy107kF6HgQrDP4HNZ9tw6gh8IP4v0pS"
+#* * * * * curl -i "http://localhost/crons/cancel_appointments_for_non_payment?token=SIb2F3nH6bWMaVez6bzR1lS029dm2VyIYy107kF6HgQrDP4HNZ9tw6gh8IP4v0pS"
+#0 8 * * * curl -i "http://localhost/crons/epsi_renovation_alert?token=SIb2F3nH6bWMaVez6bzR1lS029dm2VyIYy107kF6HgQrDP4HNZ9tw6gh8IP4v0pS"
+#@daily certbot renew

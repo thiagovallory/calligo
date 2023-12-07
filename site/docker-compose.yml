@@ -1,0 +1,28 @@
+version: '3'
+services:
+  mysql:
+    image: mysql:8
+    container_name: calligo-db
+    environment:
+      - MYSQL_DATABASE=calligo
+      - MYSQL_ROOT_PASSWORD=FmJkk<Bg=yL8{6Qr
+    restart: always
+    ports:
+      - 3306:3306
+    volumes:
+      - ./docker/data/db/mysql:/var/lib/mysql
+
+  app:
+    container_name: calligo-app
+    build: ./docker
+    ports:
+      - 80:80
+      - 443:443
+    depends_on:
+      - mysql
+    volumes:
+      - .:/var/www/html
+      - ./docker/log/cron:/var/log/cron
+      - ./docker/etc/letsencrypt:/etc/letsencrypt
+      - ./docker/etc/apache2/sites-available:/etc/apache2/sites-available
+

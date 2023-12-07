@@ -1,0 +1,19 @@
+parameters:
+    customRulesetUsed: true
+    
+    # strict-rules
+    # When set to true, it reports function and method calls with incorrect name case.
+    checkInternalClassCaseSensitivity: true
+
+    # Level 6
+    checkMissingIterableValueType: false
+    
+    # level 9
+    # checkImplicitMixed: false
+    
+    paths:
+        - src
+        
+    excludePaths:
+        - src/Command
+        - src/Console
